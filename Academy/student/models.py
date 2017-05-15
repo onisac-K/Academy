@@ -1,4 +1,4 @@
- #-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -24,6 +24,7 @@ class Teacher(models.Model):
 class Student(models.Model):
     sno = models.CharField(max_length = 20)
     sname = models.CharField(max_length = 20,null = False)
+    telenum = models.CharField(max_length = 20,null = True)
     department = models.ForeignKey(Department)
     def __unicode__(self):
         return '%s,%s'%(self.sno,self.sname)
@@ -45,7 +46,7 @@ class Opencourse(models.Model):
             unique_together = ('term','course','teacher')
     primary = ('term','course','teacher')
     def __unicode__(self):
-        return '%d,%s,%s'%(self.term,self.cno,self.tno)
+        return '%d,%s,%s'%(self.term,self.course,self.teacher)
 
 class Selection(models.Model):
     student = models.ForeignKey(Student)
@@ -57,6 +58,6 @@ class Selection(models.Model):
             unique_together = ('student','opencourse')
     primary = ('student','opencourse')
     def __unicode__(self):
-        return '%d,%d,%s,%s'%(self.sno,self.term,self.cno,self.tno)
+        return '%f'%(self.total)
 
 # Create your models here.

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Bootstrap 实例 - 向列表组添加徽章</title>
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="page-header">
+				<h1>
+					教师管理页面
+				</h1>
+			</div>
+			<div class="tabbable" id="tabs-149397">
+				<ul class="nav nav-tabs">
+					<li>
+						<a href="#panel-1" data-toggle="tab">成绩管理</a>
+					</li>
+					<li>
+						<a href="#panel-2" data-toggle="tab">学生信息</a>
+					</li>
+					<li class="active">
+						<a href="#panel-3" data-toggle="tab">课程管理</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane" id="panel-1">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										学生学号
+									</th>
+									<th>
+										学生姓名
+									</th>
+									<th>
+										所选课程
+									</th>
+									<th>
+										平时成绩
+									</th>
+									<th>
+										考试成绩
+									</th>
+									<th>
+										总评成绩
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for i in student_list %}
+								<tr class="danger">
+									<td>
+										{{i.student.sno}}
+									</td>
+									<td>
+										{{i.student.sname}}
+									</td>
+									<td>
+										{{i.opencourse.course.cname}}
+									</td>
+									<td>
+										{{i.usual}}
+									</td>
+									<td>
+										{{i.exam}}
+									</td>
+									<td>
+										{{i.total}}
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="panel-2">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										学生学号
+									</th>
+									<th>
+										学生姓名
+									</th>
+									<th>
+										联系电话
+									</th>
+									<th>
+										院系
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+
+									{% for i in student_list %}
+									<tr class="info">
+										<td>
+											{{i.student.sno}}
+										</td>
+										<td>
+											{{i.student.sname}}
+										</td>
+										<td>
+											{{i.student.telenum}}
+										</td>
+										<td>
+											{{i.student.department.dname}}
+										</td>
+									</tr>
+									{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane active" id="panel-3">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										课程号
+									</th>
+									<th>
+										课程名
+									</th>
+									<th>
+										学期
+									</th>
+									<th>
+										开课时间
+									</th>
+									<th>
+										学分
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for i in openlist %}
+								<tr class="warning">
+									<td>
+										{{i.course.cno}}
+									</td>
+									<td>
+										{{i.course.cname}}
+									</td>
+									<td>
+										{{i.term}}
+									</td>
+									<td>
+										{{i.time}}
+									</td>
+									<td>
+										{{i.course.credit}}
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+</body>
+</html>

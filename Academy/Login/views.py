@@ -26,7 +26,7 @@ def regist(req):
             return HttpResponse('regist success!!')
     else:
         uf = UserForm()
-    return render(req, 'student/regist.html',{'uf':uf})
+    return render(req, 'Login/regist.html',{'uf':uf})
 
 #登陆
 def login(req):
@@ -41,9 +41,11 @@ def login(req):
             user = User.objects.filter(username__exact = username,password__exact = password)
             if user:
                 #比较成功，跳转index
-                response = HttpResponseRedirect('/student/index/')
+                #response = HttpResponseRedirect('/student/index/')
+                response = HttpResponseRedirect('/teacher/teacher/')
                 #将username写入浏览器cookie,失效时间为3600
                 response.set_cookie('username',username,3600)
+                req.session['username'] = username
                 return response
             else:
                 #比较失败，还在login
