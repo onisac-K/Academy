@@ -26,7 +26,7 @@ def regist(req):
             return HttpResponse('regist success!!')
     else:
         uf = UserForm()
-    return render(req, 'regist.html',{'uf':uf})
+    return render(req, 'student/regist.html',{'uf':uf})
 
 #登陆
 def login(req):
@@ -41,7 +41,7 @@ def login(req):
             user = User.objects.filter(username__exact = username,password__exact = password)
             if user:
                 #比较成功，跳转index
-                response = HttpResponseRedirect('/Login/index/')
+                response = HttpResponseRedirect('/student/index/')
                 #将username写入浏览器cookie,失效时间为3600
                 response.set_cookie('username',username,3600)
                 return response
@@ -50,17 +50,17 @@ def login(req):
                 return HttpResponseRedirect('/Login/login/')
     else:
         uf = UserForm()
-    return render(req, 'login.html',{'uf':uf})
+    return render(req, 'Login/login.html',{'uf':uf})
 
 #登陆成功
 def index(req):
     username = req.COOKIES.get('username','')
-    return render(req, 'index.html',{'username':username})
+    return render(req, 'student/index.html',{'username':username})
 
 #退出
 def logout(req):
     response = HttpResponse('logout !!')
     #清理cookie里保存username
     response.delete_cookie('username')
-    response2 = HttpResponseRedirect('/Login/login/')
+    response2 = HttpResponseRedirect('Login/Login/login/')
     return response2
