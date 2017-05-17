@@ -1,28 +1,62 @@
+
 <!DOCTYPE html>
 <html >
   <head>
-    <title>Bootstrap Snippet: Login Form</title>
+    <title>登陆界面</title>
     <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    <style>
+            /*web background*/
+            .container{
+                display:table;
+                height:100%;
+            }
+
+            .row{
+                display: table-cell;
+                vertical-align: middle;
+            }
+            /* centered columns styles */
+            .row-centered {
+                text-align:center;
+            }
+            .col-centered {
+                display:inline-block;
+                float:none;
+                text-align:left;
+                margin-right:-4px;
+            }
+        </style>
   </head>
+
+
+
 
   <body>
 
-    <div class="wrapper">
-      <form class="form-signin" method="POST">
-        <h2 class="form-signin-heading">Please login</h2>
-      <!--
-        <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
-        <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-        </label>
-      -->
-        {% csrf_token %}
-        {{uf.as_p}}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-      </form>
+  <div class="container">
+      <div class="row row-centered">
+          <div class="well col-md-6 col-centered">
+              <h2>欢迎登录</h2>
+          <form class="form-signin" method="POST">
+            {% csrf_token %}
+            <div class="input-group input-group-md">
+                <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                <input type="text" class="form-control"  name="username" placeholder="请输入用户ID"/>
+            </div>
+            <div class="input-group input-group-md">
+                <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control" name="password" placeholder="请输入密码"/>
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+           <!-- <a href="http://127.0.0.1:8000/Login/regist/">注册</a> -->
+          </form>
+        </div>
+      </div>
     </div>
     <br>
-    <a href="http://127.0.0.1:8000/Login/regist/">注册</a>
+
   </body>
 </html>

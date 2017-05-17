@@ -25,5 +25,7 @@ def teacher(req):
     print openlist
     #for i in student_list :
     #    print i.student.sno,i.student.sname,i.student.telenum,i.student.department.dname
-
-    return render(req, 'teacher/teacher.html',{'student_list':student_list,'openlist':openlist})
+    teacherinf = Teacher.objects.filter(tno = username).get(id = 1)
+    teachername = teacherinf.tname
+    print teachername
+    return render(req, 'teacher/teacher.html',{'student_list':student_list,'openlist':openlist,'teachername':teachername})

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>教师页面</title>
+	<title>学生页面</title>
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -20,7 +20,7 @@
 		<ul class="nav pull-right">
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					{{teachername}}
+					{{personalInfo.sname}}
 					<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
@@ -36,19 +36,22 @@
 
 			<div class="page-header">
 				<h1>
-					教师管理页面
+					学生页面
 				</h1>
 			</div>
 			<div class="tabbable" id="tabs-149397">
 				<ul class="nav nav-tabs">
 					<li>
-						<a href="#panel-1" data-toggle="tab">成绩管理</a>
+						<a href="#panel-1" data-toggle="tab">个人信息</a>
 					</li>
 					<li>
-						<a href="#panel-2" data-toggle="tab">学生信息</a>
+						<a href="#panel-2" data-toggle="tab">选课</a>
 					</li>
 					<li>
-						<a href="#panel-3" data-toggle="tab">课程管理</a>
+						<a href="#panel-3" data-toggle="tab">已选课程查询</a>
+					</li>
+					<li>
+						<a href="#panel-4" data-toggle="tab">成绩查询</a>
 					</li>
 				</ul>
 				<div class="tab-content">
@@ -57,48 +60,34 @@
 							<thead>
 								<tr>
 									<th>
-										学生学号
+										学号
 									</th>
 									<th>
-										学生姓名
+										姓名
 									</th>
 									<th>
-										所选课程
+										电话
 									</th>
 									<th>
-										平时成绩
-									</th>
-									<th>
-										考试成绩
-									</th>
-									<th>
-										总评成绩
+										院系
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for i in student_list %}
 								<tr class="danger">
 									<td>
-										{{i.student.sno}}
+										{{personalInfo.sno}}
 									</td>
 									<td>
-										{{i.student.sname}}
+										{{personalInfo.sname}}
 									</td>
 									<td>
-										{{i.opencourse.course.cname}}
+										{{personalInfo.telenum}}
 									</td>
 									<td>
-										{{i.usual}}
-									</td>
-									<td>
-										{{i.exam}}
-									</td>
-									<td>
-										{{i.total}}
+										{{personalInfo.department.dname}}
 									</td>
 								</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -122,26 +111,11 @@
 							</thead>
 							<tbody>
 
-									{% for i in student_list %}
-									<tr class="info">
-										<td>
-											{{i.student.sno}}
-										</td>
-										<td>
-											{{i.student.sname}}
-										</td>
-										<td>
-											{{i.student.telenum}}
-										</td>
-										<td>
-											{{i.student.department.dname}}
-										</td>
-									</tr>
-									{% endfor %}
+
 							</tbody>
 						</table>
 					</div>
-					<div class="tab-pane active" id="panel-3">
+					<div class="tab-pane" id="panel-3">
 						<table class="table">
 							<thead>
 								<tr>
@@ -163,24 +137,60 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for i in openlist %}
-								<tr class="warning">
-									<td>
-										{{i.course.cno}}
-									</td>
-									<td>
-										{{i.course.cname}}
-									</td>
-									<td>
-										{{i.term}}
-									</td>
-									<td>
-										{{i.time}}
-									</td>
-									<td>
-										{{i.course.credit}}
-									</td>
+								{% for i in course_info %}
+								<tr class="success">
+								<td>
+									{{i.opencourse.course.cno}}
+								</td>
+								<td>
+									{{i.opencourse.course.cname}}
+								</td>
+								<td>
+									{{i.opencourse.term}}
+								</td>
+								<td>
+									{{i.opencourse.time}}
+								</td>
+								<td>
+									{{i.opencourse.course.credit}}
+								</td>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="panel-4">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										课程号
+									</th>
+									<th>
+										课程名
+									</th>
+									<th>
+										分数
+									</th>
+									<th>
+										绩点
+									</th>
 								</tr>
+							</thead>
+							<tbody>
+								{% for i in course_info %}
+								<tr class="success">
+								<td>
+									{{i.opencourse.course.cno}}
+								</td>
+								<td>
+									{{i.opencourse.course.cname}}
+								</td>
+								<td>
+									{{i.total}}
+								</td>
+								<td>
+									{{4.0}}
+								</td>
 								{% endfor %}
 							</tbody>
 						</table>
