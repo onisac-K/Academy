@@ -80,22 +80,22 @@
 									</td>
                   <td>
 										<!--{{i.usual}}-->
-										<input type="text" name="usual0" id={{i.sno}} size="5" value="{{i.usual}}" />
+										<input type="text" name={{i.student.sno}} size="5" value="{{i.usual}}" />
 									</td>
                   <td>
 										<!--{{i.usual}}-->
-										<input type="text" name="usual0" id={{i.sno}} size="5" value="{{i.exam}}" />
+										<input type="text" name={{i.student.sno}} size="5" value="{{i.exam}}" />
 									</td>
                   <td>
 										<!--{{i.usual}}-->
-										<input type="text" name="usual0" id={{i.sno}} size="5" value="{{i.total}}" />
+										{{i.total}}
 									</td>
 								</tr>
 								{% endfor %}
 							</tbody>
 						</table>
             <td>
-              <button type="submit" class="btn btn-default" name = "key"  value = {{i.id}}>修改成绩</button>
+              <button type="submit" class="btn btn-default">修改成绩</button>
             </td>
 		</div>
   </form>

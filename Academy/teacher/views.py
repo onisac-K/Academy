@@ -33,13 +33,39 @@ def teacher(req):
             if (int)(i.id) == (int)(buttonlist[0]):
                 course = i
                 print course.course.cname
-        print course
-        thiscourse_student_list = Selection.objects.filter(opencourse = course)
-        print thiscourse_student_list
-        return render(req, 'teacher/score.html',{'thiscourse_student_list':thiscourse_student_list,'opencourse':course,'openlist':openlist,'teachername':teachername})
+        req.session['cno'] = course.course.cno
+        response = HttpResponseRedirect('/teacher/score/')
+        return response
 
     #for i in student_list :
     #    print i.student.sno,i.student.sname,i.student.telenum,i.student.department.dname
 
     #print teachername
     return render(req, 'teacher/teacher.html',{'student_list':student_list,'openlist':openlist,'teachername':teachername})
+
+def score(req):
+    cno = req.session.get('cno')
+    username = req.session.get('username')
+    course = Opencourse.objects.filter(course__cno = cno).filter(teacher__tno = username)[0];
+    student_info = Selection.objects.filter(opencourse__teacher__tno = username)
+    student_list = list(student_info)
+    openlist = list(Opencourse.objects.filter(teacher__tno = username))
+    teacherinf = Teacher.objects.filter(tno = username).get(id = 1)
+    teachername = teacherinf.tname
+    thiscourse_student_list = Selection.objects.filter(opencourse__course__cno = cno).order_by("student__sno")
+    if req.method == 'POST':
+        for i in thiscourse_student_list:
+            openInf = req.POST.getlist(i.student.sno,'')
+            usual = (float)(openInf[0])
+            exam = (float)(openInf[1])
+            rate = i.opencourse.rate
+            total = exam*rate + usual*(1-rate)
+            print usual,exam,rate,total
+            i.usual = usual
+            i.exam = exam
+            i.total = total
+            i.save()
+            print openInf
+            response = HttpResponseRedirect('/teacher/score/')
+            return response
+    return render(req, 'teacher/score.html',{'thiscourse_student_list':thiscourse_student_list,'opencourse':course,'openlist':openlist,'teachername':teachername})
