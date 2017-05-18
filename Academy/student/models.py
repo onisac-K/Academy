@@ -51,9 +51,9 @@ class Opencourse(models.Model):
 class Selection(models.Model):
     student = models.ForeignKey(Student)
     opencourse = models.ForeignKey(Opencourse)
-    usual = models.FloatField(null=False)
-    exam = models.FloatField(null=False)
-    total = models.FloatField(null=False)
+    usual = models.FloatField(null=True)
+    exam = models.FloatField(null=True)
+    total = models.FloatField(null=True)
     class Meta:
             unique_together = ('student','opencourse')
     primary = ('student','opencourse')
