@@ -32,24 +32,49 @@ def select(req):
             #添加到数据库
             username = req.session.get('username')
             print(username)
-            course = Opencourse.objects.filter(course__cno = courseNo)
+            opencourse = Opencourse.objects.filter(course__cno = courseNo).filter(teacher__tno = teacherNo)
             student = Student.objects.filter(sno = username)
-            for courseItem in course:
+            print student
+            for courseItem in opencourse:
                 for studentItem in student:
                     Selection.objects.create(student = studentItem,opencourse = courseItem,usual=0,exam=0,total=0)
-                    # print(student.sno)
-            return HttpResponse(select)
+# print(student.sno)
+            return HttpResponseRedirect('/student/student/')
     else:
         sf = SelectForm()
     return render(req, 'student/student.html',{'sf':sf})
 
+def delete(req):
+    if req.method == 'POST':
+        sf = SelectForm(req.POST)
+        if sf.is_valid():
+            #获得表单数据
+            courseNo = sf.cleaned_data['courseNo']
+            teacherNo = sf.cleaned_data['teacherNo']
+            print(courseNo)
+            print(teacherNo)
+            #添加到数据库
+            username = req.session.get('username')
+            print(username)
+            opencourse = Opencourse.objects.filter(course__cno = courseNo).filter(teacher__tno = teacherNo)
+            student = Student.objects.filter(sno = username)
+            print opencourse
+            for courseItem in opencourse:
+                for studentItem in student:
+                    Selection.objects.filter(student = studentItem,opencourse = courseItem).delete()
+            #Selection.objects.filter(student = student,opencourse = opencourse).delete()
+                    # print(student.sno)
+            return HttpResponseRedirect('/student/student/')
+    else:
+        sf = SelectForm()
+    return render(req, 'student/student.html',{'sf':sf})
 
 def student(req):
     # nowtime = 163
     username = req.session.get('username')
     course_info = list(Selection.objects.filter(student__sno = username))
     # open_info = []
-    open_info = list(Opencourse.objects.filter(term = 163))
+    open_info = list(Opencourse.objects.filter(term = 3))
 
     for i in course_info:
         print i.opencourse.course.cname
