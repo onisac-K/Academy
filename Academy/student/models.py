@@ -1,3 +1,4 @@
+
 #-*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
@@ -42,6 +43,7 @@ class Opencourse(models.Model):
     course = models.ForeignKey(Course)
     teacher = models.ForeignKey(Teacher)
     time = models.CharField(max_length = 30,null = False)
+    rate = models.FloatField(null = True)
     class Meta:
             unique_together = ('term','course','teacher')
     primary = ('term','course','teacher')
