@@ -19,7 +19,8 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^Login/', include('Login.urls')),
+    url(r'^$', include('login.urls')),
+    url(r'^login/', include('login.urls')),
     url(r'^student/', include('student.urls')),
     url(r'^teacher/', include('teacher.urls')),
 ]
