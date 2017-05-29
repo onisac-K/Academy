@@ -60,10 +60,34 @@ def score(req):
             exam = (float)(openInf[1])
             rate = i.opencourse.rate
             total = exam*rate + usual*(1-rate)
+            grade = total
+            if grade < 60:
+                gpa='0'
+            elif grade < 64:
+                gpa='1.0'
+            elif grade < 66:
+                gpa='1.5'
+            elif grade < 68:
+                gpa='1.8'
+            elif grade < 72:
+                gpa='2.0'
+            elif grade < 75:
+                gpa='2.3'
+            elif grade < 78:
+                gpa='2.7'
+            elif grade < 82:
+                gpa='3.0'
+            elif grade < 85:
+                gpa='3.3'
+            elif grade < 90:
+                gpa='3.7'
+            else:
+                gpa='4.0'
             print usual,exam,rate,total
             i.usual = usual
             i.exam = exam
             i.total = total
+            i.gpa = gpa
             i.save()
             print openInf
             response = HttpResponseRedirect('/teacher/score/')

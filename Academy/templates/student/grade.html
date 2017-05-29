@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>成绩</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+  			<nav class="navbar navbar-default">
+  				<ul class="nav navbar-nav">
+  					<li><a href="student">个人信息</a></li>
+  					<li>
+  						<a href="grade">成绩查询</a>
+  					</li>
+  					<li>
+  						<a href="selection">选课</a>
+  					</li>
+  					<li>
+  						<a href="drop">退课</a>
+  					</li>
+  				</ul>
+
+  				<ul class="nav pull-right">
+  					<li class="dropdown">
+  						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+  							{{personalInfo.sname}}
+  							<b class="caret"></b>
+  						</a>
+  						<ul class="dropdown-menu">
+  							<li><a href="http://127.0.0.1:8000/login/">退出</a></li>
+
+  						</ul>
+  					</li>
+  				</ul>
+  			</nav>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            课程号
+          </th>
+          <th>
+            课程名
+          </th>
+          <th>
+            学分
+          </th>
+          <th>
+            成绩
+          </th>
+          <th>
+            绩点
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in select_info %}
+
+        <tr class="success">
+        <td>
+          {{i.opencourse.course.cno}}
+        </td>
+        <td>
+          {{i.opencourse.course.cname}}
+        </td>
+        <td>
+          {{i.opencourse.course.credit}}
+        </td>
+        <td>
+          {{i.total}}
+        </td>
+        <td>
+          {{i.gpa}}
+        </td>
+
+        {% endfor %}
+
+      </tbody>
+    </table>
+    </div>
+  </body>
+</html>

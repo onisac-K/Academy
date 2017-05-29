@@ -56,6 +56,7 @@ class Selection(models.Model):
     usual = models.FloatField(null=True)
     exam = models.FloatField(null=True)
     total = models.FloatField(null=True)
+    gpa = models.CharField(max_length = 30,null = True)
     class Meta:
             unique_together = ('student','opencourse')
     primary = ('student','opencourse')
