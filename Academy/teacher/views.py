@@ -24,30 +24,21 @@ lower_people = 0
 Size = 0
 def teacher(req):
     username = req.session.get('username')
-    #print(username)
     student_info = Selection.objects.filter(opencourse__teacher__tno = username)
     student_list = list(student_info)
-    print nowterm
     openlist = list(Opencourse.objects.filter(teacher__tno = username).filter(term = nowterm))
-    print openlist
     teacherinf = Teacher.objects.filter(tno = username).get(id = 1)
     teachername = teacherinf.tname
 
     if req.method == 'POST':
         buttonlist = req.POST.getlist('key','')
-        print buttonlist[0]
         for i in openlist:
             if (int)(i.id) == (int)(buttonlist[0]):
                 course = i
-                print course.course.cname
         req.session['cno'] = course.course.cno
         response = HttpResponseRedirect('/teacher/score/')
         return response
 
-    #for i in student_list :
-    #    print i.student.sno,i.student.sname,i.student.telenum,i.student.department.dname
-
-    #print teachername
     return render(req, 'teacher/teacher.html',{'openlist':openlist,'teachername':teachername})
 
 def score(req):
@@ -66,39 +57,25 @@ def score(req):
     average_point = 0.0
     upper_people = 0
     lower_people = 0
-    Size = 0
     cnt = 0
-    #print highest
-    #print lowest
     for i in thiscourse_student_list:
-        #print type(i.gpa)
-
-        Size = Size + 1
         if not(i.total is None):
             average_grade = average_grade + i.total
             highest = max(highest,i.total)
             lowest = min(lowest,i.total)
-        #print highest
-        #print lowest
+
             if i.total >= 60.0:
                 upper_people = upper_people + 1
             else:
                 lower_people = lower_people + 1
+
         if not(i.gpa is None):
-            #print type(i.gpa)
-            #print highest
-            #print lowest
             cnt += 1
             average_point = average_point + float(i.gpa)
 
     average_grade /= cnt
     average_point /= cnt
 
-    #print highest
-    #print lowest
-
-
-    print thiscourse_student_list
     if req.method == 'POST':
         for i in thiscourse_student_list:
             openInf = req.POST.getlist(i.student.sno,'')
@@ -106,7 +83,6 @@ def score(req):
             exam = (float)(openInf[1])
             rate = i.opencourse.rate
             total = exam*rate + usual*(1-rate)
-            print 123,usual,exam,total
             grade = total
             if grade < 60:
                 gpa='0'
@@ -130,15 +106,12 @@ def score(req):
                 gpa='3.7'
             else:
                 gpa='4.0'
-            print usual,exam,rate,total
             i.usual = usual
             i.exam = exam
             i.total = total
             i.gpa = gpa
             i.save()
-            print openInf
             response = HttpResponseRedirect('/teacher/score/')
         return response
-    #print highest
-    #print lowest
+    
     return render(req, 'teacher/score.html',{'lower_people':lower_people,'upper_people':upper_people,'lowest':lowest,'highest':highest,'average_point':average_point,'average_grade':average_grade,'thiscourse_student_list':thiscourse_student_list,'opencourse':course,'openlist':openlist,'teachername':teachername})
