@@ -14,14 +14,21 @@ from student.models import Student
 from student.models import Course
 
 # Create your views here.
-
-
+nowterm = 163
+highest = 0.0
+lowest = 100.0
+average_grade = 0.0
+average_point = 0.0
+upper_people = 0
+lower_people = 0
+Size = 0
 def teacher(req):
     username = req.session.get('username')
     #print(username)
     student_info = Selection.objects.filter(opencourse__teacher__tno = username)
     student_list = list(student_info)
-    openlist = list(Opencourse.objects.filter(teacher__tno = username))
+    print nowterm
+    openlist = list(Opencourse.objects.filter(teacher__tno = username).filter(term = nowterm))
     print openlist
     teacherinf = Teacher.objects.filter(tno = username).get(id = 1)
     teachername = teacherinf.tname
@@ -41,7 +48,7 @@ def teacher(req):
     #    print i.student.sno,i.student.sname,i.student.telenum,i.student.department.dname
 
     #print teachername
-    return render(req, 'teacher/teacher.html',{'student_list':student_list,'openlist':openlist,'teachername':teachername})
+    return render(req, 'teacher/teacher.html',{'openlist':openlist,'teachername':teachername})
 
 def score(req):
     cno = req.session.get('cno')
@@ -52,7 +59,46 @@ def score(req):
     openlist = list(Opencourse.objects.filter(teacher__tno = username))
     teacherinf = Teacher.objects.filter(tno = username).get(id = 1)
     teachername = teacherinf.tname
-    thiscourse_student_list = Selection.objects.filter(opencourse__course__cno = cno).order_by("student__sno")
+    thiscourse_student_list = list(Selection.objects.filter(opencourse__course__cno = cno).filter(opencourse__teacher__tno = username).filter(opencourse__term = nowterm).order_by("student__sno"))
+    highest = 0.0
+    lowest = 100.0
+    average_grade = 0.0
+    average_point = 0.0
+    upper_people = 0
+    lower_people = 0
+    Size = 0
+    cnt = 0
+    #print highest
+    #print lowest
+    for i in thiscourse_student_list:
+        #print type(i.gpa)
+
+        Size = Size + 1
+        if not(i.total is None):
+            average_grade = average_grade + i.total
+            highest = max(highest,i.total)
+            lowest = min(lowest,i.total)
+        #print highest
+        #print lowest
+            if i.total >= 60.0:
+                upper_people = upper_people + 1
+            else:
+                lower_people = lower_people + 1
+        if not(i.gpa is None):
+            #print type(i.gpa)
+            #print highest
+            #print lowest
+            cnt += 1
+            average_point = average_point + float(i.gpa)
+
+    average_grade /= cnt
+    average_point /= average_point + float(i.gpa)
+
+    #print highest
+    #print lowest
+
+
+    print thiscourse_student_list
     if req.method == 'POST':
         for i in thiscourse_student_list:
             openInf = req.POST.getlist(i.student.sno,'')
@@ -60,6 +106,7 @@ def score(req):
             exam = (float)(openInf[1])
             rate = i.opencourse.rate
             total = exam*rate + usual*(1-rate)
+            print 123,usual,exam,total
             grade = total
             if grade < 60:
                 gpa='0'
@@ -91,5 +138,7 @@ def score(req):
             i.save()
             print openInf
             response = HttpResponseRedirect('/teacher/score/')
-            return response
-    return render(req, 'teacher/score.html',{'thiscourse_student_list':thiscourse_student_list,'opencourse':course,'openlist':openlist,'teachername':teachername})
+        return response
+    #print highest
+    #print lowest
+    return render(req, 'teacher/score.html',{'lower_people':lower_people,'upper_people':upper_people,'lowest':lowest,'highest':highest,'average_point':average_point,'average_grade':average_grade,'thiscourse_student_list':thiscourse_student_list,'opencourse':course,'openlist':openlist,'teachername':teachername})

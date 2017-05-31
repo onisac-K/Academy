@@ -29,7 +29,7 @@ def select(req):
         for i in range(start-1,end):
             matrix[i][dict[day]] = 1
 
-    personalInfo = Student.objects.filter(sno = username).get(id = 1)
+    personalInfo = Student.objects.filter(sno = username)[0]
 
     if req.method == 'POST':
         buttonlist = req.POST.getlist('key','')
@@ -65,7 +65,7 @@ def select(req):
 def drop(req):
     username = req.session.get('username')
     select_info = list(Selection.objects.filter(student__sno = username,opencourse__term = nowterm))
-    personalInfo = Student.objects.filter(sno = username).get(id = 1)
+    personalInfo = Student.objects.filter(sno = username)[0]
 
     if req.method == 'POST':
         buttonlist = req.POST.getlist('key','')
@@ -84,12 +84,12 @@ def drop(req):
 
 def grade(req):
     username = req.session.get('username')
-    personalInfo = Student.objects.filter(sno = username).get(id = 1)
+    personalInfo = Student.objects.filter(sno = username)[0]
     select_info = list(Selection.objects.filter(student__sno = username))
 
     return render(req, 'student/grade.html',{'select_info':select_info,'personalInfo':personalInfo})
 
 def student(req):
     username = req.session.get('username')
-    personalInfo = Student.objects.filter(sno = username).get(id = 1)
+    personalInfo = Student.objects.filter(sno = username)[0]
     return render(req, 'student/student.html',{'personalInfo':personalInfo})

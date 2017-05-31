@@ -24,7 +24,7 @@
 					<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="http://127.0.0.1:8000/Login/login/">Logout</a></li>
+					<li><a href="http://127.0.0.1:8000/">Logout</a></li>
 
 				</ul>
 			</li>
@@ -40,6 +40,8 @@
 				</h1>
 			</div>
 
+
+
       <form  method = "POST">
         {% csrf_token %}
 						<table class="table">
@@ -52,7 +54,7 @@
 										学生姓名
 									</th>
 									<th>
-										所选课程
+										联系电话
 									</th>
 									<th>
 										平时成绩
@@ -76,7 +78,7 @@
 										{{i.student.sname}}
 									</td>
 									<td>
-										{{i.opencourse.course.cname}}
+										{{i.student.telenum}}
 									</td>
                   <td>
 										<!--{{i.usual}}-->
@@ -99,6 +101,53 @@
             </td>
 		</div>
   </form>
+
+	<h3>成绩统计</h3>
+	          <table class="table">
+	            <thead>
+	              <tr>
+	                <th>
+	                  平均分
+	                </th>
+	                <th>
+	                  平均绩点
+	                </th>
+	                <th>
+	                  合格人数
+	                </th>
+	                <th>
+	                  不合格人数
+	                </th>
+	                <th>
+	                  最高分
+	                </th>
+	                <th>
+	                  最低分
+	                </th>
+	              </tr>
+	            </thead>
+	            <tbody>
+	              <tr class="success">
+	              <td>
+	                {{average_grade}}
+	              </td>
+	              <td>
+	                {{average_point}}
+	              </td>
+	              <td>
+	                {{upper_people}}
+	              </td>
+	              <td>
+	                {{lower_people}}
+	              </td>
+	              <td>
+	                {{highest}}
+	              </td>
+	              <td>
+	                {{lowest}}
+	              </td>
+	            </tbody>
+	          </table>
 
 	</div>
 </div>
