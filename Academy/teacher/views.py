@@ -92,7 +92,7 @@ def score(req):
             average_point = average_point + float(i.gpa)
 
     average_grade /= cnt
-    average_point /= average_point + float(i.gpa)
+    average_point /= cnt
 
     #print highest
     #print lowest
